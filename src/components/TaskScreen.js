@@ -2,15 +2,19 @@ import React, { Component } from 'react';
 import TaskItem from './TaskItem';
 import TaskForm from './TaskForm';
 
-const style = {
-  margin: 15,
-  border: '10px solid black',
-};
-
 const initialState = {
   taskData: null,
   taskDetails: "",
   taskPriority: "",
+}
+
+const gridContainer = {
+  display: "grid",
+  gridTemplateColumns: "auto auto auto auto",
+  gridTemplateRows: "auto",
+  justifyContent: "space-evenly",
+  gridGap: "10px",
+  padding: "10px"
 }
 
 class TaskScreen extends Component {
@@ -94,7 +98,7 @@ class TaskScreen extends Component {
       allTasks.push(
         <div key={"priority-" + priority}>
           <h2 >Priority: {priority}</h2>
-          <div>{tasksByPriority}</div>
+          <div style={gridContainer}>{tasksByPriority}</div>
         </div>
       )
     })
@@ -105,10 +109,7 @@ class TaskScreen extends Component {
   render() {
     return (
       <div>
-        {this.state.taskData ? this.renderTasks() : "Loading Tasks..."}
-        <br />
         <div>
-          Add New Task
           <TaskForm
             handleChange={this.handleChange}
             handleClick={this.handleClick}
@@ -116,6 +117,9 @@ class TaskScreen extends Component {
             taskPriority={this.state.taskPriority}
           />
         </div>
+        <br />
+        <h1>Tasks</h1>
+        {this.state.taskData ? this.renderTasks() : "Loading Tasks..."}
       </div>
     );
   }

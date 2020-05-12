@@ -1,21 +1,34 @@
 import React, { Component } from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import TextField from 'material-ui/TextField';
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 
 const style = {
   margin: 15,
+  padding: 10,
+  border: "1px solid black"
+};
+
+const ButtonStyle = {
+  margin: 15,
+  verticalAlign: "bottom",
+  color: "blue",
 };
 
 class TaskItem extends Component {
   render() {
+    var props = this.props
     return (
-      <MuiThemeProvider>
-        <div>
-          <TextField value={this.props.taskData.task} id={"details-" + this.props.taskData.taskid} />
-          <RaisedButton label={"Delete"} onClick={(event) => this.props.handleClick(event, "delete", this.props.taskData.taskid)} />
-        </div>
-      </MuiThemeProvider>
+      <Card style={style}>
+        <CardContent style={{ textAlign: 'left' }}>
+          {props.taskData.task}
+        </CardContent>
+        <CardContent >
+          <Button style={ButtonStyle} variant="contained" onClick={(event) => this.props.handleClick(event, "delete", this.props.taskData.taskid)}>
+            Delete
+          </Button>
+        </CardContent>
+      </Card>
     );
   }
 }
