@@ -16,7 +16,6 @@ class TaskForm extends Component {
             name="taskDetails"
             hintText="Enter task details"
             floatingLabelText="Task"
-            required={true}
             value={this.props.taskDetails}
             onChange={this.props.handleChange}
           />
