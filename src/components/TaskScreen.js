@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TaskItem from './TaskItem';
 import TaskForm from './TaskForm';
+import Grid from "@material-ui/core/Grid";
 
 const initialState = {
   taskData: null,
@@ -8,14 +9,14 @@ const initialState = {
   taskPriority: "",
 }
 
-const gridContainer = {
-  display: "grid",
-  gridTemplateColumns: "auto auto auto auto",
-  gridTemplateRows: "auto",
-  justifyContent: "space-evenly",
-  gridGap: "10px",
-  padding: "10px"
-}
+// const gridContainer = {
+//   display: "grid",
+//   gridTemplateColumns: "auto auto auto auto",
+//   gridTemplateRows: "auto",
+//   justifyContent: "space-evenly",
+//   gridGap: "10px",
+//   padding: "10px"
+// }
 
 class TaskScreen extends Component {
   state = initialState
@@ -88,17 +89,24 @@ class TaskScreen extends Component {
       var tasksByPriority = []
       this.state.taskData[priority].forEach(task => {
         tasksByPriority.push(
-          <TaskItem
-            handleClick={this.handleClick}
-            key={task.taskid}
-            taskData={task}
-          />
+          <Grid item xs={6} sm={6} md={3}>
+            <TaskItem
+              handleClick={this.handleClick}
+              key={task.taskid}
+              taskData={task}
+            />
+          </Grid>
         )
       })
       allTasks.push(
         <div key={"priority-" + priority}>
           <h2 >Priority: {priority}</h2>
-          <div style={gridContainer}>{tasksByPriority}</div>
+          <Grid
+            container
+            spacing={3}
+          >
+            {tasksByPriority}
+          </Grid>
         </div>
       )
     })

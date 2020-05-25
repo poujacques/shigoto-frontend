@@ -12,7 +12,7 @@ const style = {
 const ButtonStyle = {
   margin: 15,
   verticalAlign: "bottom",
-  color: "blue",
+  // color: "blue",
 };
 
 class TaskItem extends Component {
