@@ -10,8 +10,7 @@ class LoginFields extends Component {
         </div>
         <TextField
           name="username"
-          hintText="Enter your username"
-          floatingLabelText="Username"
+          label="Username"
           value={this.props.username}
           onChange={this.props.handleChange}
         />
@@ -22,8 +21,7 @@ class LoginFields extends Component {
         <TextField
           type="password"
           name="password"
-          hintText="Enter your Password"
-          floatingLabelText="Password"
+          label="Password"
           value={this.props.password}
           onChange={this.props.handleChange}
         />
