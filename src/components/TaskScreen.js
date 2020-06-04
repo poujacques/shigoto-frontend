@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import TaskItem from './TaskItem';
 import TaskForm from './TaskForm';
+import TaskEditDialog from './TaskEditDialog';
 
 const initialState = {
   taskData: null,
-  taskDetails: "",
-  taskPriority: "",
+  taskDetailsForm: "",
+  taskPriorityForm: "",
+  taskIDMod: null,
+  taskDetailsMod: null,
+  taskPriorityMod: null,
+  dialogueOpen: false,
 }
 
 class TaskScreen extends Component {
@@ -25,22 +30,35 @@ class TaskScreen extends Component {
     this.setState({ taskData })
   }
 
+  handleClickOpen = () => {
+    this.setState({
+      dialogueOpen: true,
+    })
+  };
+
+  handleClose = () => {
+    this.setState({
+      dialogueOpen: false,
+    })
+  };
+
   handleChange = event => {
     this.setState({
       [event.target.name]: event.target.value
     });
   };
 
-  handleClick = async (event, action, id) => {
+  handleClick = async (event, action, taskData) => {
     var tokendata = this.props.tokendata
     var url = "https://shigoto-project.nn.r.appspot.com/api/v1/" + tokendata.userid + "/tasks"
+    var requestBody = {}
 
     if (action === "create") {
-      var requestBody = {
-        task: this.state.taskDetails,
+      requestBody = {
+        task: this.state.taskDetailsForm,
       }
-      if (this.state.taskPriority) {
-        requestBody["priority"] = parseInt(this.state.taskPriority)
+      if (this.state.taskPriorityForm) {
+        requestBody["priority"] = parseInt(this.state.taskPriorityForm)
       }
 
       const requestOptions = {
@@ -51,9 +69,9 @@ class TaskScreen extends Component {
         body: JSON.stringify(requestBody)
       }
       await fetch(url, requestOptions)
-      this.setState({ taskDetails: initialState.taskDetails, taskPriority: initialState.taskPriority })
+      this.setState({ taskDetailsForm: initialState.taskDetailsForm, taskPriorityForm: initialState.taskPriorityForm })
     } else if (action === "delete") {
-      url = url + "/" + id
+      url = url + "/" + taskData.taskid
       const requestOptions = {
         method: 'DELETE',
         headers: {
@@ -61,6 +79,33 @@ class TaskScreen extends Component {
         },
       }
       await fetch(url, requestOptions)
+    } else if (action === "modify") {
+      console.log("updating", taskData.taskid)
+      this.setState({
+        taskIDMod: taskData.taskid,
+        taskDetailsMod: taskData.task,
+        taskPriorityMod: taskData.priority,
+      });
+      this.handleClickOpen()
+    } else if (action === "update") {
+      this.handleClose()
+      if (this.state.taskDetailsMod) {
+        requestBody["task"] = this.state.taskDetailsMod
+      }
+      if (this.state.taskPriorityMod) {
+        requestBody["priority"] = parseInt(this.state.taskPriorityMod)
+      }
+
+      url = url + "/" + this.state.taskIDMod
+      const requestOptions = {
+        method: 'PATCH',
+        headers: {
+          "Authorization": "Bearer " + tokendata.token
+        },
+        body: JSON.stringify(requestBody)
+      }
+      await fetch(url, requestOptions)
+      this.setState({ taskIDMod: initialState.taskIDMod, taskDetailsMod: initialState.taskDetailsMod, taskPriorityMod: initialState.taskPriorityMod })
     }
     this.getTaskData()
   }
@@ -107,14 +152,22 @@ class TaskScreen extends Component {
           <TaskForm
             handleChange={this.handleChange}
             handleClick={this.handleClick}
-            taskDetails={this.state.taskDetails}
-            taskPriority={this.state.taskPriority}
+            taskDetailsForm={this.state.taskDetailsForm}
+            taskPriorityForm={this.state.taskPriorityForm}
+          />
+          <TaskEditDialog
+            handleClose={this.handleClose}
+            handleChange={this.handleChange}
+            handleClick={this.handleClick}
+            dialogueOpen={this.state.dialogueOpen}
+            taskDetailsMod={this.state.taskDetailsMod}
+            taskPriorityMod={this.state.taskPriorityMod}
           />
         </div>
         <br />
         <h1>Tasks</h1>
         {this.state.taskData ? this.renderTasks() : "Loading Tasks..."}
-      </div>
+      </div >
     );
   }
 }
