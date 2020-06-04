@@ -1,3 +1,24 @@
+.standardStyle {
+  margin: 15px;
+}
+
+.textStyle {
+  width: 300px;
+  border: 1px solid black;
+  text-align: left;
+  display: inline-block;
+}
+
+.iconStyle {
+  vertical-align: top;
+  display: inline-block;
+}
+
+.errorStyle {
+  font-size: 14px;
+  color: red;
+}
+
 .App {
   text-align: center;
 }
