@@ -13,7 +13,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="App container">
         <h1>Welcome to Shigoto the Tasking App</h1>
         {!this.state.tokendata ?
           <LoginScreen appContext={this} key={"login-screen"} /> :
@@ -25,3 +25,4 @@ class App extends Component {
 }
 
 export default App;
+

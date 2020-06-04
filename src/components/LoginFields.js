@@ -5,7 +5,7 @@ class LoginFields extends Component {
   render() {
     return (
       <div>
-        <div style={{ fontSize: 12, color: "red" }}>
+        <div className="errorStyle">
           {this.props.authError}
         </div>
         <TextField
@@ -14,7 +14,7 @@ class LoginFields extends Component {
           value={this.props.username}
           onChange={this.props.handleChange}
         />
-        <div style={{ fontSize: 12, color: "red" }}>
+        <div className="errorStyle">
           {this.props.usernameError}
         </div>
         <br />
@@ -25,7 +25,7 @@ class LoginFields extends Component {
           value={this.props.password}
           onChange={this.props.handleChange}
         />
-        <div style={{ fontSize: 12, color: "red" }}>
+        <div className="errorStyle">
           {this.props.passwordError}
         </div>
         <br />

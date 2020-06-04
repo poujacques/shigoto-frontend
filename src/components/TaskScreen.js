@@ -80,7 +80,6 @@ class TaskScreen extends Component {
       this.state.taskData[priority].forEach(task => {
         tasksByPriority.push(
           <TaskItem
-            style={{ maxWidth: "30px" }}
             handleClick={this.handleClick}
             key={task.taskid}
             taskData={task}

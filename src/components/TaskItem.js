@@ -1,41 +1,25 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-const divStyle = {
-  margin: "auto",
-}
+const TaskItem = (props) => {
 
-const textStyle = {
-  width: "300px",
-  border: "1px solid black",
-  textAlign: 'left',
-  display: "inline-block",
-};
-
-const iconStyle = {
-  verticalAlign: "top",
-  display: "inline-block",
-};
-
-class TaskItem extends Component {
-  render() {
-    var props = this.props
-    return (
-      <div style={divStyle}>
-        <Card style={textStyle}>
-          <CardContent >
-            {props.taskData.task}
-          </CardContent>
-        </Card>
-        <IconButton style={iconStyle} onClick={(event) => this.props.handleClick(event, "delete", this.props.taskData.taskid)}>
+  return (
+    <div style={{ margin: "auto" }}>
+      <Card className="textStyle">
+        <CardContent >
+          {props.taskData.task}
+        </CardContent>
+      </Card>
+      <div className="iconStyle" >
+        <IconButton onClick={(event) => props.handleClick(event, "delete", props.taskData.taskid)}>
           <DeleteIcon fontSize="small" />
         </IconButton>
-      </ div >
-    );
-  }
+      </div>
+    </div>
+  )
 }
 
 export default TaskItem;
