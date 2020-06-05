@@ -8,9 +8,9 @@ class TaskForm extends Component {
       <div>
         <h3>Add New Task</h3>
         <TextField
-          name="taskDetails"
+          name="taskDetailsForm"
           label="Enter task details"
-          value={this.props.taskDetails}
+          value={this.props.taskDetailsForm}
           onChange={this.props.handleChange}
           variant="outlined"
           multiline
@@ -19,9 +19,9 @@ class TaskForm extends Component {
         <br />
         <TextField
           type="number"
-          name="taskPriority"
+          name="taskPriorityForm"
           label="Select task priority"
-          value={this.props.taskPriority}
+          value={this.props.taskPriorityForm}
           onChange={this.props.handleChange}
         />
         <br />

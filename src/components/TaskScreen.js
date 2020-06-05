@@ -1,19 +1,12 @@
 import React, { Component } from 'react';
 import TaskItem from './TaskItem';
 import TaskForm from './TaskForm';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
+import TaskEditDialog from './TaskEditDialog';
 
 const initialState = {
   taskData: null,
-  taskDetails: "",
-  taskPriority: "",
+  taskDetailsForm: "",
+  taskPriorityForm: "",
   taskIDMod: null,
   taskDetailsMod: null,
   taskPriorityMod: null,
@@ -62,10 +55,10 @@ class TaskScreen extends Component {
 
     if (action === "create") {
       requestBody = {
-        task: this.state.taskDetails,
+        task: this.state.taskDetailsForm,
       }
-      if (this.state.taskPriority) {
-        requestBody["priority"] = parseInt(this.state.taskPriority)
+      if (this.state.taskPriorityForm) {
+        requestBody["priority"] = parseInt(this.state.taskPriorityForm)
       }
 
       const requestOptions = {
@@ -76,7 +69,7 @@ class TaskScreen extends Component {
         body: JSON.stringify(requestBody)
       }
       await fetch(url, requestOptions)
-      this.setState({ taskDetails: initialState.taskDetails, taskPriority: initialState.taskPriority })
+      this.setState({ taskDetailsForm: initialState.taskDetailsForm, taskPriorityForm: initialState.taskPriorityForm })
     } else if (action === "delete") {
       url = url + "/" + taskData.taskid
       const requestOptions = {
@@ -159,45 +152,22 @@ class TaskScreen extends Component {
           <TaskForm
             handleChange={this.handleChange}
             handleClick={this.handleClick}
-            taskDetails={this.state.taskDetails}
-            taskPriority={this.state.taskPriority}
+            taskDetailsForm={this.state.taskDetailsForm}
+            taskPriorityForm={this.state.taskPriorityForm}
           />
-          <Dialog onClose={this.handleClose} aria-labelledby="customized-dialog-title" open={this.state.dialogueOpen}>
-            <DialogTitle>
-              Modify Task
-              <IconButton onClick={this.handleClose}>
-                <CloseIcon />
-              </IconButton>
-            </DialogTitle>
-            <DialogContent dividers>
-              <TextField
-                name="taskDetailsMod"
-                label="Enter task details"
-                value={this.state.taskDetailsMod}
-                onChange={this.handleChange}
-                variant="outlined"
-                multiline
-                rows={4}
-              />
-              <TextField
-                type="number"
-                name="taskPriorityMod"
-                label="Select task priority"
-                value={this.state.taskPriorityMod}
-                onChange={this.handleChange}
-              />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={(event) => this.handleClick(event, "update")}>
-                Save changes
-              </Button>
-            </DialogActions>
-          </Dialog>
+          <TaskEditDialog
+            handleClose={this.handleClose}
+            handleChange={this.handleChange}
+            handleClick={this.handleClick}
+            dialogueOpen={this.state.dialogueOpen}
+            taskDetailsMod={this.state.taskDetailsMod}
+            taskPriorityMod={this.state.taskPriorityMod}
+          />
         </div>
         <br />
         <h1>Tasks</h1>
         {this.state.taskData ? this.renderTasks() : "Loading Tasks..."}
-      </div>
+      </div >
     );
   }
 }

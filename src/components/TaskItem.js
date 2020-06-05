@@ -14,7 +14,7 @@ const TaskItem = (props) => {
           <EditIcon fontSize="small" />
         </IconButton>
       </div>
-      <Card className="textStyle">
+      <Card className="textStyle" onClick={(event) => props.handleClick(event, "modify", props.taskData)}>
         <CardContent >
           {props.taskData.task}
         </CardContent>
